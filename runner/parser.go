@@ -3,7 +3,7 @@ package runner
 import (
 	"os/exec"
 
-	"github.com/filebrowser/filebrowser/v2/settings"
+	"github.com/hlpmenu/filebrowser-hlmn/settings"
 )
 
 // ParseCommand parses the command taking in account if the current

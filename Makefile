@@ -1,5 +1,5 @@
 include common.mk
-include tools.mk
+#include tools.mk
 
 LDFLAGS += -X "$(MODULE)/version.Version=$(VERSION)" -X "$(MODULE)/version.CommitSHA=$(VERSION_HASH)"
 
@@ -37,9 +37,9 @@ lint-frontend: ## Run frontend linters
 lint-backend: | $(golangci-lint) ## Run backend linters
 	$Q $(golangci-lint) run -v
 
-.PHONY: lint-commits
-lint-commits: $(commitlint) ## Run commit linters
-	$Q ./scripts/commitlint.sh
+# .PHONY: lint-commits
+# lint-commits: $(commitlint) ## Run commit linters
+# 	$Q ./scripts/commitlint.sh
 
 fmt: $(goimports) ## Format source files
 	$Q $(goimports) -local $(MODULE) -w $$(find . -type f -name '*.go' -not -path "./vendor/*")
@@ -48,9 +48,9 @@ clean: clean-tools ## Clean
 
 ## Release:
 
-.PHONY: bump-version
-bump-version: $(standard-version) ## Bump app version
-	$Q ./scripts/bump_version.sh
+# .PHONY: bump-version
+# bump-version: $(standard-version) ## Bump app version
+# 	$Q ./scripts/bump_version.sh
 
 ## Help:
 help: ## Show this help

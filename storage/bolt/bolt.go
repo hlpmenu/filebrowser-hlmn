@@ -3,11 +3,11 @@ package bolt
 import (
 	"github.com/asdine/storm/v3"
 
-	"github.com/filebrowser/filebrowser/v2/auth"
-	"github.com/filebrowser/filebrowser/v2/settings"
-	"github.com/filebrowser/filebrowser/v2/share"
-	"github.com/filebrowser/filebrowser/v2/storage"
-	"github.com/filebrowser/filebrowser/v2/users"
+	"github.com/hlpmenu/filebrowser-hlmn/auth"
+	"github.com/hlpmenu/filebrowser-hlmn/settings"
+	"github.com/hlpmenu/filebrowser-hlmn/share"
+	"github.com/hlpmenu/filebrowser-hlmn/storage"
+	"github.com/hlpmenu/filebrowser-hlmn/users"
 )
 
 // NewStorage creates a storage.Storage based on Bolt DB.

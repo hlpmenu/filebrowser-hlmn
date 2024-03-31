@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/filebrowser/filebrowser/v2/cmd"
+	"github.com/hlpmenu/filebrowser-hlmn/cmd"
 )
 
 func main() {
