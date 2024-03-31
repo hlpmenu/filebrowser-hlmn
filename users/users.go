@@ -6,6 +6,7 @@ import (
 
 	"github.com/spf13/afero"
 
+	config "github.com/hlpmenu/filebrowser-hlmn/conig"
 	"github.com/hlpmenu/filebrowser-hlmn/errors"
 	"github.com/hlpmenu/filebrowser-hlmn/files"
 	"github.com/hlpmenu/filebrowser-hlmn/rules"
@@ -31,7 +32,7 @@ var UserPermissions = Permissions{
 }
 
 // User describes a user.
-type User struct {
+type UserType struct {
 	ID           uint
 	Username     string
 	Password     string
@@ -47,6 +48,25 @@ type User struct {
 	Rules        []rules.Rule  `json:"rules"`
 	HideDotfiles bool          `json:"hideDotfiles"`
 	DateFormat   bool          `json:"dateFormat"`
+}
+
+// Define a global User instance using constants from the config package
+var User = &User{
+	ID:           config.ID,
+	Username:     config.Username,
+	Password:     config.Password,
+	Scope:        config.Scope,
+	Locale:       config.Locale,
+	LockPassword: config.LockPassword,
+	ViewMode:     config.ViewMode, // replace with actual value
+	SingleClick:  config.SingleClick,
+	Perm:         config.Perm,     // replace with actual value
+	Commands:     config.Commands, // replace with actual value
+	Sorting:      config.Sorting,  // replace with actual value
+	Fs:           afero.NewOsFs(),
+	Rules:        config.Rules, // replace with actual value
+	HideDotfiles: config.HideDotfiles,
+	DateFormat:   config.DateFormat,
 }
 
 // GetRules implements rules.Provider.

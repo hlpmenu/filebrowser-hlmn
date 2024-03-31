@@ -63,30 +63,41 @@ func (e extractor) ExtractToken(r *http.Request) (string, error) {
 	return "", request.ErrNoTokenInRequest
 }
 
+// func withUser(fn handleFunc) handleFunc {
+// 	return func(w http.ResponseWriter, r *http.Request, d *data) (int, error) {
+// 		keyFunc := func(token *jwt.Token) (interface{}, error) {
+// 			return d.settings.Key, nil
+// 		}
+
+// 		var tk authToken
+// 		token, err := request.ParseFromRequest(r, &extractor{}, keyFunc, request.WithClaims(&tk))
+
+// 		if err != nil || !token.Valid {
+// 			return http.StatusUnauthorized, nil
+// 		}
+
+// 		expired := !tk.VerifyExpiresAt(time.Now().Add(time.Hour), true)
+// 		updated := tk.IssuedAt != nil && tk.IssuedAt.Unix() < d.store.Users.LastUpdate(tk.User.ID)
+
+// 		if expired || updated {
+// 			w.Header().Add("X-Renew-Token", "true")
+// 		}
+
+//			d.user, err = d.store.Users.Get(d.server.Root, tk.User.ID)
+//			if err != nil {
+//				return http.StatusInternalServerError, err
+//			}
+//			return fn(w, r, d)
+//		}
+//	}
 func withUser(fn handleFunc) handleFunc {
 	return func(w http.ResponseWriter, r *http.Request, d *data) (int, error) {
-		keyFunc := func(token *jwt.Token) (interface{}, error) {
-			return d.settings.Key, nil
+		// Ignore the JWT token and always consider the current user as the hardcoded user
+		d.user = &users.User{
+			ID: 1,
+			// Set the other fields as necessary...
 		}
 
-		var tk authToken
-		token, err := request.ParseFromRequest(r, &extractor{}, keyFunc, request.WithClaims(&tk))
-
-		if err != nil || !token.Valid {
-			return http.StatusUnauthorized, nil
-		}
-
-		expired := !tk.VerifyExpiresAt(time.Now().Add(time.Hour), true)
-		updated := tk.IssuedAt != nil && tk.IssuedAt.Unix() < d.store.Users.LastUpdate(tk.User.ID)
-
-		if expired || updated {
-			w.Header().Add("X-Renew-Token", "true")
-		}
-
-		d.user, err = d.store.Users.Get(d.server.Root, tk.User.ID)
-		if err != nil {
-			return http.StatusInternalServerError, err
-		}
 		return fn(w, r, d)
 	}
 }

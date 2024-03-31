@@ -8,7 +8,7 @@ import (
 // UserDefaults is a type that holds the default values
 // for some fields on User.
 type UserDefaults struct {
-	Scope        string            `json:"scope"`
+	Scope        string
 	Locale       string            `json:"locale"`
 	ViewMode     users.ViewMode    `json:"viewMode"`
 	SingleClick  bool              `json:"singleClick"`
