@@ -19,17 +19,28 @@ const (
 	MosaicViewMode ViewMode = "mosaic"
 )
 
+var UserPermissions = Permissions{
+	Admin:    true,
+	Execute:  true,
+	Create:   true,
+	Rename:   true,
+	Modify:   true,
+	Delete:   true,
+	Share:    true,
+	Download: true,
+}
+
 // User describes a user.
 type User struct {
-	ID           uint          `storm:"id,increment" json:"id"`
-	Username     string        `storm:"unique" json:"username"`
-	Password     string        `json:"password"`
-	Scope        string        `json:"scope"`
-	Locale       string        `json:"locale"`
-	LockPassword bool          `json:"lockPassword"`
-	ViewMode     ViewMode      `json:"viewMode"`
-	SingleClick  bool          `json:"singleClick"`
-	Perm         Permissions   `json:"perm"`
+	ID           uint
+	Username     string
+	Password     string
+	Scope        string
+	Locale       string
+	LockPassword bool
+	ViewMode     ViewMode `json:"viewMode"`
+	SingleClick  bool     `json:"singleClick"`
+	Perm         Permissions
 	Commands     []string      `json:"commands"`
 	Sorting      files.Sorting `json:"sorting"`
 	Fs           afero.Fs      `json:"-" yaml:"-"`
