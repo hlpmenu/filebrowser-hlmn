@@ -1,6 +1,8 @@
 package settings
 
 import (
+	"log"
+
 	"github.com/hlpmenu/filebrowser-hlmn/errors"
 	"github.com/hlpmenu/filebrowser-hlmn/rules"
 	"github.com/hlpmenu/filebrowser-hlmn/users"
@@ -92,6 +94,7 @@ func (s *Storage) Save(set *Settings) error {
 
 	err := s.back.Save(set)
 	if err != nil {
+		log.Printf("error saving settings: %v", err)
 		return err
 	}
 
