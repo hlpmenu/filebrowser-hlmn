@@ -5,11 +5,9 @@ import (
 	"log"
 	"net/http"
 	"os"
-	"strings"
 	"time"
 
 	"github.com/golang-jwt/jwt/v4"
-	"github.com/golang-jwt/jwt/v4/request"
 
 	"github.com/hlpmenu/filebrowser-hlmn/errors"
 	"github.com/hlpmenu/filebrowser-hlmn/users"
@@ -36,32 +34,32 @@ type authToken struct {
 	jwt.RegisteredClaims
 }
 
-type extractor []string
+// type extractor []string
 
-func (e extractor) ExtractToken(r *http.Request) (string, error) {
-	token, _ := request.HeaderExtractor{"X-Auth"}.ExtractToken(r)
+// func (e extractor) ExtractToken(r *http.Request) (string, error) {
+// 	token, _ := request.HeaderExtractor{"X-Auth"}.ExtractToken(r)
 
-	// Checks if the token isn't empty and if it contains two dots.
-	// The former prevents incompatibility with URLs that previously
-	// used basic auth.
-	if token != "" && strings.Count(token, ".") == 2 {
-		return token, nil
-	}
+// 	// Checks if the token isn't empty and if it contains two dots.
+// 	// The former prevents incompatibility with URLs that previously
+// 	// used basic auth.
+// 	if token != "" && strings.Count(token, ".") == 2 {
+// 		return token, nil
+// 	}
 
-	auth := r.URL.Query().Get("auth")
-	if auth != "" && strings.Count(auth, ".") == 2 {
-		return auth, nil
-	}
+// 	auth := r.URL.Query().Get("auth")
+// 	if auth != "" && strings.Count(auth, ".") == 2 {
+// 		return auth, nil
+// 	}
 
-	if r.Method == http.MethodGet {
-		cookie, _ := r.Cookie("auth")
-		if cookie != nil && strings.Count(cookie.Value, ".") == 2 {
-			return cookie.Value, nil
-		}
-	}
+// 	if r.Method == http.MethodGet {
+// 		cookie, _ := r.Cookie("auth")
+// 		if cookie != nil && strings.Count(cookie.Value, ".") == 2 {
+// 			return cookie.Value, nil
+// 		}
+// 	}
 
-	return "", request.ErrNoTokenInRequest
-}
+// 	return "", request.ErrNoTokenInRequest
+// }
 
 // func withUser(fn handleFunc) handleFunc {
 // 	return func(w http.ResponseWriter, r *http.Request, d *data) (int, error) {
@@ -92,11 +90,8 @@ func (e extractor) ExtractToken(r *http.Request) (string, error) {
 //	}
 func withUser(fn handleFunc) handleFunc {
 	return func(w http.ResponseWriter, r *http.Request, d *data) (int, error) {
-		// Ignore the JWT token and always consider the current user as the hardcoded user
-		d.user = &users.User{
-			ID: 1,
-			// Set the other fields as necessary...
-		}
+		// Use the global TheUser variable
+		d.user = users.TheUser
 
 		return fn(w, r, d)
 	}

@@ -6,7 +6,7 @@ import (
 
 	"github.com/spf13/afero"
 
-	config "github.com/hlpmenu/filebrowser-hlmn/conig"
+	config "github.com/hlpmenu/filebrowser-hlmn/config"
 	"github.com/hlpmenu/filebrowser-hlmn/errors"
 	"github.com/hlpmenu/filebrowser-hlmn/files"
 	"github.com/hlpmenu/filebrowser-hlmn/rules"
@@ -32,7 +32,7 @@ var UserPermissions = Permissions{
 }
 
 // User describes a user.
-type UserType struct {
+type User struct {
 	ID           uint
 	Username     string
 	Password     string
@@ -51,20 +51,21 @@ type UserType struct {
 }
 
 // Define a global User instance using constants from the config package
-var User = &User{
+// Define a global User instance using constants from the config package
+var TheUser = &User{
 	ID:           config.ID,
 	Username:     config.Username,
 	Password:     config.Password,
 	Scope:        config.Scope,
 	Locale:       config.Locale,
 	LockPassword: config.LockPassword,
-	ViewMode:     config.ViewMode, // replace with actual value
+	ViewMode:     ListViewMode, // use one of the ViewMode constants
 	SingleClick:  config.SingleClick,
-	Perm:         config.Perm,     // replace with actual value
-	Commands:     config.Commands, // replace with actual value
-	Sorting:      config.Sorting,  // replace with actual value
-	Fs:           afero.NewOsFs(),
-	Rules:        config.Rules, // replace with actual value
+	Perm:         UserPermissions, // replace with the local variable Permissions
+	Commands:     []string{},      // initialize Commands as an empty slice
+	Sorting:      files.Sorting{}, // replace with an instance of files.Sorting
+	Fs:           afero.NewOsFs(), // replace with an instance of afero.Fs
+	Rules:        []rules.Rule{},  // replace with an array of instances of rules.Rule
 	HideDotfiles: config.HideDotfiles,
 	DateFormat:   config.DateFormat,
 }
