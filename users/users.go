@@ -64,8 +64,8 @@ var TheUser = &User{
 	Perm:         UserPermissions, // replace with the local variable Permissions
 	Commands:     []string{},      // initialize Commands as an empty slice
 	Sorting:      files.Sorting{}, // replace with an instance of files.Sorting
-	Fs:           afero.NewOsFs(), // replace with an instance of afero.Fs
-	Rules:        []rules.Rule{},  // replace with an array of instances of rules.Rule
+	Fs:           afero.NewBasePathFs(afero.NewOsFs(), config.Scope),
+	Rules:        []rules.Rule{}, // replace with an array of instances of rules.Rule
 	HideDotfiles: config.HideDotfiles,
 	DateFormat:   config.DateFormat,
 }
